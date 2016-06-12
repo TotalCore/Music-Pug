@@ -357,8 +357,8 @@ class MusicBot(discord.Client):
         if server.id not in self.players:
             if not create:
                 raise exceptions.CommandError(
-                    'The bot is not in a voice channel.  '
-                    'Use %ssummon to summon it to your voice channel.' % self.config.command_prefix)
+                    'The bot is not in a voice channel idiot.  '
+                    'Use %ssummon to summon it to your voice channel you fucking idiot.' % self.config.command_prefix)
 
             voice_client = await self.get_voice_client(channel)
 
@@ -394,7 +394,7 @@ class MusicBot(discord.Client):
                     break  # This is probably redundant
 
             if self.config.now_playing_mentions:
-                newmsg = '%s - your song **%s** is now playing in %s!' % (
+                newmsg = '%s - your song **%s** is now playing in %s you slut!' % (
                     entry.meta['author'].mention, entry.title, player.voice_client.channel.name)
             else:
                 newmsg = 'Now playing in %s: **%s**' % (
@@ -741,7 +741,6 @@ class MusicBot(discord.Client):
 
             helpmsg += ", ".join(commands)
             helpmsg += "```"
-            helpmsg += "https://github.com/SexualRhinoceros/MusicBot/wiki/Commands-list"
 
             return Response(helpmsg, reply=True, delete_after=60)
 
@@ -750,8 +749,8 @@ class MusicBot(discord.Client):
         Usage:
             {command_prefix}blacklist [ + | - | add | remove ] @UserName [@UserName2 ...]
 
-        Add or remove users to the blacklist.
-        Blacklisted users are forbidden from using bot commands.
+        Add or remove users to the global blacklist.
+        Blacklisted users are forbidden from using bot commands on every server with the Music Pug.
         """
 
         if not user_mentions:
@@ -764,7 +763,7 @@ class MusicBot(discord.Client):
 
         for user in user_mentions.copy():
             if user.id == self.config.owner_id:
-                print("[Commands:Blacklist] The owner cannot be blacklisted.")
+                print("[Commands:Blacklist] The owner cannot be blacklisted you weeb.")
                 user_mentions.remove(user)
 
         old_len = len(self.blacklist)
@@ -775,20 +774,20 @@ class MusicBot(discord.Client):
             write_file(self.config.blacklist_file, self.blacklist)
 
             return Response(
-                '%s users have been added to the blacklist' % (len(self.blacklist) - old_len),
+                '%s users have been added to the global blacklist, the sluts.' % (len(self.blacklist) - old_len),
                 reply=True, delete_after=10
             )
 
         else:
             if self.blacklist.isdisjoint(user.id for user in user_mentions):
-                return Response('none of those users are in the blacklist.', reply=True, delete_after=10)
+                return Response('none of those users are in the global blacklist you idiot.', reply=True, delete_after=10)
 
             else:
                 self.blacklist.difference_update(user.id for user in user_mentions)
                 write_file(self.config.blacklist_file, self.blacklist)
 
                 return Response(
-                    '%s users have been removed from the blacklist' % (old_len - len(self.blacklist)),
+                    '%s users have been removed from the global blacklist' % (old_len - len(self.blacklist)),
                     reply=True, delete_after=10
                 )
 
@@ -803,7 +802,7 @@ class MusicBot(discord.Client):
             return Response('your id is `%s`' % author.id, reply=True, delete_after=35)
         else:
             usr = user_mentions[0]
-            return Response("%s's id is `%s`" % (usr.name, usr.id), reply=True, delete_after=35)
+            return Response("i dont want to know why you want %s's id but it is `%s`" % (usr.name, usr.id), reply=True, delete_after=35)
 
     @owner_only
     async def cmd_joinserver(self, message, server_link):
@@ -816,7 +815,7 @@ class MusicBot(discord.Client):
 
         if self.user.bot:
             return Response(
-                "Bot accounts can't use invite links!  See: "
+                "Bot accounts can't use invite links you slut!  See: "
                 "https://discordapp.com/developers/docs/topics/oauth2#adding-bots-to-guilds",
                 reply=True, delete_after=30
             )
@@ -826,7 +825,7 @@ class MusicBot(discord.Client):
             return Response(":+1:")
 
         except:
-            raise exceptions.CommandError('Invalid URL provided:\n{}\n'.format(server_link), expire_in=30)
+            raise exceptions.CommandError('Invalid URL provided you nerd:\n{}\n'.format(server_link), expire_in=30)
 
     async def cmd_play(self, player, channel, author, permissions, leftover_args, song_url):
         """
@@ -856,7 +855,7 @@ class MusicBot(discord.Client):
             raise exceptions.CommandError(e, expire_in=30)
 
         if not info:
-            raise exceptions.CommandError("That video cannot be played.", expire_in=30)
+            raise exceptions.CommandError("That video cannot be played because it's shitty.", expire_in=30)
 
         # abstract the search handling away from the user
         # our ytdl options allow us to use search strings as input urls
@@ -1283,7 +1282,7 @@ class MusicBot(discord.Client):
         """
 
         if not author.voice_channel:
-            raise exceptions.CommandError('You are not in a voice channel!')
+            raise exceptions.CommandError('You are not in a voice channel you idiot!')
 
         voice_client = self.the_voice_clients.get(channel.server.id, None)
         if voice_client and voice_client.channel.server == author.voice_channel.server:
@@ -1294,14 +1293,14 @@ class MusicBot(discord.Client):
         chperms = author.voice_channel.permissions_for(author.voice_channel.server.me)
 
         if not chperms.connect:
-            self.safe_print("Cannot join channel \"%s\", no permission." % author.voice_channel.name)
+            self.safe_print("Cannot join channel \"%s\", no permission. Actually give the bot Administrator perms idiot." % author.voice_channel.name)
             return Response(
-                "```Cannot join channel \"%s\", no permission.```" % author.voice_channel.name,
+                "```Cannot join channel \"%s\", no permission. Actually give the bot Administrator perms idiot.```" % author.voice_channel.name,
                 delete_after=25
             )
 
         elif not chperms.speak:
-            self.safe_print("Will not join channel \"%s\", no permission to speak." % author.voice_channel.name)
+            self.safe_print("Will not join channel \"%s\", no permission to speak because someone didn't give it Administrator." % author.voice_channel.name)
             return Response(
                 "```Will not join channel \"%s\", no permission to speak.```" % author.voice_channel.name,
                 delete_after=25
@@ -1327,7 +1326,7 @@ class MusicBot(discord.Client):
             player.pause()
 
         else:
-            raise exceptions.CommandError('Player is not playing.', expire_in=30)
+            raise exceptions.CommandError('Player is not playing, you slut.', expire_in=30)
 
     async def cmd_resume(self, player):
         """
@@ -1363,7 +1362,7 @@ class MusicBot(discord.Client):
             await asyncio.sleep(0.6)
 
         await self.safe_delete_message(hand, quiet=True)
-        return Response(":ok_hand:", delete_after=15)
+        return Response("Do the audio shuffle! #shuffled", delete_after=15)
 
     async def cmd_clear(self, player, author):
         """
@@ -1463,7 +1462,7 @@ class MusicBot(discord.Client):
             new_volume = int(new_volume)
 
         except ValueError:
-            raise exceptions.CommandError('{} is not a valid number'.format(new_volume), expire_in=20)
+            raise exceptions.CommandError('{} is not a valid number you slut'.format(new_volume), expire_in=20)
 
         if relative:
             vol_change = new_volume
@@ -1474,7 +1473,7 @@ class MusicBot(discord.Client):
         if 0 < new_volume <= 100:
             player.volume = new_volume / 100.0
 
-            return Response('updated volume from %d to %d' % (old_volume, new_volume), reply=True, delete_after=20)
+            return Response('updated volume from %d to %d, isnt it too huge of an amount?' % (old_volume, new_volume), reply=True, delete_after=20)
 
         else:
             if relative:
@@ -1665,7 +1664,7 @@ class MusicBot(discord.Client):
             rawudata = None
 
             if cur_cat == 'users':
-                data.append("\nUser IDs:")
+                data.append("\nUser IDs that are probably sluts:")
                 rawudata = ['%s #%s: %s' % (m.name, m.discriminator, m.id) for m in server.members]
 
             elif cur_cat == 'roles':
@@ -1731,7 +1730,7 @@ class MusicBot(discord.Client):
         except Exception as e:
             raise exceptions.CommandError(e, expire_in=20)
 
-        return Response(":ok_hand:", delete_after=20)
+        return Response("God the name got changed of course it did", delete_after=20)
 
     @owner_only
     async def cmd_setnick(self, server, channel, leftover_args, nick):
@@ -1752,7 +1751,7 @@ class MusicBot(discord.Client):
         except Exception as e:
             raise exceptions.CommandError(e, expire_in=20)
 
-        return Response(":ok_hand:", delete_after=20)
+        return Response("K i'm renamed what more do you want", delete_after=20)
 
     @owner_only
     async def cmd_setavatar(self, message, url=None):
@@ -1821,7 +1820,7 @@ class MusicBot(discord.Client):
                 return
 
         if message.author.id in self.blacklist and message.author.id != self.config.owner_id:
-            self.safe_print("[User blacklisted] {0.id}/{0.name} ({1})".format(message.author, message_content))
+            self.safe_print("[Blacklisted User] {0.id}/{0.name} ({1})".format(message.author, message_content))
             return
 
         else:
