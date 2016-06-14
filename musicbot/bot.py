@@ -218,7 +218,7 @@ class MusicBot(discord.Client):
             return True
         else:
             raise exceptions.PermissionsError(
-                "you cannot use this command when not in the voice channel (%s)" % vc.name, expire_in=30)
+                "you cannot use this command when not in the voice channel you fucking idiot (%s)" % vc.name, expire_in=30)
 
     async def get_voice_client(self, channel):
         if isinstance(channel, Object):
@@ -332,7 +332,7 @@ class MusicBot(discord.Client):
             channel = self.get_channel(channel.id)
 
         if getattr(channel, 'type', ChannelType.text) != ChannelType.voice:
-            raise AttributeError('Channel passed must be a voice channel')
+            raise AttributeError('Channel passed must be a voice channel nerd')
 
         # I'm not sure if this lock is actually needed
         with await self.voice_client_move_lock:
@@ -394,7 +394,7 @@ class MusicBot(discord.Client):
                     break  # This is probably redundant
 
             if self.config.now_playing_mentions:
-                newmsg = '%s - your song **%s** is now playing in %s you slut!' % (
+                newmsg = '%s - your song **%s** is now playing in %s!' % (
                     entry.meta['author'].mention, entry.title, player.voice_client.channel.name)
             else:
                 newmsg = 'Now playing in %s: **%s**' % (
@@ -754,7 +754,7 @@ class MusicBot(discord.Client):
         """
 
         if not user_mentions:
-            raise exceptions.CommandError("No users listed.", expire_in=20)
+            raise exceptions.CommandError("No users listed you fucking weeb.", expire_in=20)
 
         if option not in ['+', '-', 'add', 'remove']:
             raise exceptions.CommandError(
@@ -1373,7 +1373,7 @@ class MusicBot(discord.Client):
         """
 
         player.playlist.clear()
-        return Response(':put_litter_in_its_place:', delete_after=20)
+        return Response('Queue cleared, probably some shitty stuff was in there.', delete_after=20)
 
     async def cmd_skip(self, player, channel, author, message, permissions, voice_channel):
         """
@@ -1710,7 +1710,7 @@ class MusicBot(discord.Client):
             lines.insert(len(lines) - 1, "%s: %s" % (perm, permissions.__dict__[perm]))
 
         await self.send_message(author, '\n'.join(lines))
-        return Response(":mailbox_with_mail:", delete_after=20)
+        return Response("You've got mail!", delete_after=20)
 
 
     @owner_only
@@ -1784,12 +1784,12 @@ class MusicBot(discord.Client):
         return Response(":hear_no_evil:", delete_after=20)
 
     async def cmd_restart(self, channel):
-        await self.safe_send_message(channel, ":wave:")
+        await self.safe_send_message(channel, "Bot officially restarting")
         await self.disconnect_all_voice_clients()
         raise exceptions.RestartSignal
 
     async def cmd_shutdown(self, channel):
-        await self.safe_send_message(channel, ":wave:")
+        await self.safe_send_message(channel, "Bot officially shutting down")
         await self.disconnect_all_voice_clients()
         raise exceptions.TerminateSignal
 
