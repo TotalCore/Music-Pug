@@ -805,6 +805,24 @@ class MusicBot(discord.Client):
             return Response("i dont want to know why you want %s's id but it is `%s`" % (usr.name, usr.id), reply=True, delete_after=35)
 
     @owner_only
+    async def cmd_suggest(self, message, args):
+        """
+        Usage:
+            (command_prefix)suggest [text]
+
+        Suggests something to the Music Pug Developers.
+        """
+            try{
+                if(args.length >= 2){
+                    var msg = args.splice(1, args.length).join(" ");
+                    bot.sendMessage("192356748525436928", "[SUGGESTION] ["+new Date().toUTCString()+"] ["+message.author.name+"]("+message.author.id+") in channel ``"+message.channel.name+"``(``"+message.channel.id+"``) on server ``"+message.channel.server.name+"``(``"+message.channel.server.id+"``) -> ``"+msg+"``");
+                    bot.sendMessage(message, "Message sent.");
+                }
+            }catch(e){
+                bot.sendMessage(message, "Whoops! An error occured! Please report it in the Official server! ```js\n"+e.name + ': ' + e.message+" "+e.stack.split("\n")[4]+"```");
+            }
+
+    @owner_only
     async def cmd_joinserver(self, message, server_link):
         """
         Usage:
